@@ -6,14 +6,14 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please tell us your name!']
+    required: [true, 'Porfavor nos diz o seu nome!']
   },
   email: {
     type: String,
-    required: [true, 'Please provide your email'],
+    required: [true, 'Porfavor providência-nos o seu email'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email']
+    validate: [validator.isEmail, 'Este email não é valido']
   },
   photo: {
     type: String,
@@ -21,24 +21,24 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'guide', 'lead-guide', 'admin'],
+    enum: ['user', 'admin'],
     default: 'user'
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
+    required: [true, 'A sua senha'],
     minlength: 8,
     select: false
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'Please confirm your password'],
+    required: [true, 'Confima a sua senha'],
     validate: {
       // This only works on CREATE and SAVE!!!
       validator: function(el) {
         return el === this.password;
       },
-      message: 'Passwords are not the same!'
+      message: 'As senhas não são iguais!'
     }
   },
   passwordChangedAt: Date,
