@@ -97,6 +97,7 @@ app.use('/api/v1/products', require('./routes/productRoutes'));
 app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/reviews', require('./routes/reviewRoutes'));
 app.use('/api/v1/bookings', require('./routes/bookingRoutes'));
+app.use('/api/v1/contact', require('./routes/contactRoutes'));
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

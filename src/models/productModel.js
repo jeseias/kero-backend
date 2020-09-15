@@ -9,18 +9,27 @@ const productSchema = new mongoose.Schema(
       unique: true,
       trim: true
     },   
+    category: {
+      type: String,
+      required: [true, 'O produto deve ter uma categoria'],
+      enum: ['alimentação', 'eletronicos', 'materias', 'vestuários']
+    },
+    subCategory: {
+      type: String,
+      reqiured: [true, 'O produto deve ter uma sub-categoria']
+    },
     price: {
       type: Number,
-      required: [true, 'A tour must have a price']
+      required: [true, 'Um produto deve ter um preço']
     }, 
     summary: {
       type: String,
       trim: true,
-      required: [true, 'A tour must have a description']
+      required: [true, 'Um produto deve ter um sumário']
     }, 
     imageCover: {
       type: String,
-      required: [true, 'A tour must have a cover image']
+      required: [true, 'Um producto deve ter uma imagen principal']
     },
     images: [String],   
   },

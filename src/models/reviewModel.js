@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema(
   {
     review: {
       type: String,
-      required: [true, 'Review can not be empty!']
+      required: [true, 'O seu testemunho não pode estar vazinho!']
     },
     rating: {
       type: Number,
@@ -15,7 +15,7 @@ const reviewSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
-      required: [true, 'Review must belong to a user']
+      required: [true, 'O testemunho deve esta relacionado com algum cliente']
     }
   },
   {
