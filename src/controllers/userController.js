@@ -20,7 +20,7 @@ const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
     cb(null, true);
   } else {
-    cb(new AppError('Not an image! Please upload only images.', 400), false);
+    cb(new AppError('Não é uma imagen! Faça upload so de imagens.', 400), false);
   }
 };
 
@@ -63,7 +63,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
-        'This route is not for password updates. Please use /updateMyPassword.',
+        'Está routa não é para atualizar senhas. Use está: /updateMyPassword.',
         400
       )
     );
@@ -99,7 +99,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
-    message: 'This route is not defined! Please use /signup instead'
+    message: 'Está rota não existe! Use está /signup'
   });
 };
 
