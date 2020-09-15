@@ -12,11 +12,7 @@ const compression = require('compression');
 const cors = require('cors');
 
 const AppError = require('./utils/appError');
-const globalErrorHandler = require('./controllers/errorController');
-const tourRouter = require('./routes/tourRoutes');
-const userRouter = require('./routes/userRoutes');
-const reviewRouter = require('./routes/reviewRoutes');
-const bookingRouter = require('./routes/bookingRoutes');
+const globalErrorHandler = require('./controllers/errorController'); 
 const bookingController = require('./controllers/bookingController');
 
 // Start express app
@@ -29,12 +25,12 @@ const app = express();
 app.use(cors());
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
-app.use(cors({
-  origin: 'https://www.natours.com'
-}))
+// app.use(cors({
+//   origin: 'https://www.natours.com'
+// }))
 
-app.options('*', cors());
-app.options('/api/v1/tours/:id', cors());
+// app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, '..', 'public')));
@@ -48,12 +44,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Limit requests from same API
-const limiter = rateLimit({
-  max: 100,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!'
-});
-app.use('/api', limiter);
+// const limiter = rateLimit({
+//   max: 100,
+//   windowMs: 60 * 60 * 1000,
+//   message: 'Too many requests from this IP, please try again in an hour!'
+// });
+// app.use('/api', limiter);
 
 // Stripe webhook, BEFORE body-parser, because stripe needs the body as stream
 // app.post(
@@ -74,20 +70,20 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // Prevent parameter pollution
-app.use(
-  hpp({
-    whitelist: [
-      'duration',
-      'ratingsQuantity',
-      'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
-      'price'
-    ]
-  })
-);
+// app.use(
+//   hpp({
+//     whitelist: [
+//       'duration',
+//       'ratingsQuantity',
+//       'ratingsAverage',
+//       'maxGroupSize',
+//       'difficulty',
+//       'price'
+//     ]
+//   })
+// );
 
-app.use(compression());
+// app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {
@@ -97,10 +93,10 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-app.use('/api/v1/tours', tourRouter);
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/reviews', reviewRouter);
-app.use('/api/v1/bookings', bookingRouter);
+app.use('/api/v1/products', require('./routes/productRoutes'));
+app.use('/api/v1/users', require('./routes/userRoutes'));
+app.use('/api/v1/reviews', require('./routes/reviewRoutes'));
+app.use('/api/v1/bookings', require('./routes/bookingRoutes'));
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
