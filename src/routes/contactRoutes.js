@@ -1,4 +1,4 @@
-const route = require('express').Router();
+const router = require('express').Router();
 const contactController = require('./../controllers/contactController');
 const authController = require('./../controllers/authController');
 
@@ -19,3 +19,5 @@ router
   .route('/:id')
   .patch(contactController.updateContact)
   .delete(contactController.deleteContact)
+
+module.exports = router;
