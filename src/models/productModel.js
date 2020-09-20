@@ -18,6 +18,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       reqiured: [true, 'O produto deve ter uma sub-categoria']
     },
+    top: {
+      type: Boolean,
+      default: false
+    },
     price: {
       type: Number,
       required: [true, 'Um produto deve ter um preço']
@@ -39,6 +43,12 @@ const productSchema = new mongoose.Schema(
     timestamps: true
   }
 ); 
+
+productSchema.virtual('img__url').get(function() { 
+  return process.env.LOCATION !== 'http://127.0.0.1' 
+          ? `${process.env.LOCATION}/files/img/products/${this.imageCover}`
+          : `${process.env.LOCATION}:${process.env.PORT}/files/img/products/${this.imageCover}`;
+});
 
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
 productSchema.pre('save', function(next) {

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ConactSchema = new mongoose.Schema({
+const ContactSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Diz nos o seu nome!']
@@ -23,6 +23,6 @@ const ConactSchema = new mongoose.Schema({
   }
 });
 
-const Contact = mongoose.model('Contact', ConactSchema);
+const Contact = mongoose.model('Contact', ContactSchema);
 
 module.exports = Contact;

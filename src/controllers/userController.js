@@ -1,3 +1,4 @@
+const fs = require('fs')
 const multer = require('multer');
 const sharp = require('sharp');
 const User = require('./../models/userModel');
@@ -57,6 +58,21 @@ exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
+
+exports.deleteImages = catchAsync(async (req, res, next) => {
+  if (req.file) {
+    const { id } = req.user;
+    const user = await User.findById(id)
+  
+    const imgName = user.photo 
+    
+    return fs.unlink(`public/img/users/${imgName}`, () => {
+      next()
+    })
+  }
+
+  next()
+})
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data

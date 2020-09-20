@@ -30,7 +30,7 @@ exports.updateOne = Model =>
     res.status(200).json({
       status: 'success',
       data: {
-        data: doc
+        doc
       }
     });
   });
@@ -42,7 +42,7 @@ exports.createOne = Model =>
     res.status(201).json({
       status: 'success',
       data: {
-        data: doc
+        doc
       }
     });
   });
@@ -60,7 +60,7 @@ exports.getOne = (Model, popOptions) =>
     res.status(200).json({
       status: 'success',
       data: {
-        data: doc
+        doc
       }
     });
   });
@@ -77,14 +77,14 @@ exports.getAll = Model =>
       .limitFields()
       .paginate();
     // const doc = await features.query.explain();
-    const doc = await features.query;
+    const docs = await features.query;
 
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',
-      results: doc.length,
+      results: docs.length,
       data: {
-        data: doc
+        docs
       }
     });
   });

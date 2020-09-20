@@ -4,12 +4,12 @@ const authController = require('./../controllers/authController');
 
 router 
   .route('/')
-  .get(contactController.getAllContacts) 
-
-router 
-  .route('/')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin'),
+    contactController.getAllContacts
+  )  
   .post(
-    authController.restrictTo('user'),
     contactController.createContact
   )  
 

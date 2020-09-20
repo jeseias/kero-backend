@@ -16,6 +16,10 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: [true, 'O testemunho deve esta relacionado com algum cliente']
+    },
+    visible: {
+      type: Boolean,
+      default: false
     }
   },
   {

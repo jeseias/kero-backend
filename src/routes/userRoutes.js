@@ -19,6 +19,7 @@ router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/updateMe',
   userController.uploadUserPhoto,
+  userController.deleteImages,
   userController.resizeUserPhoto,
   userController.updateMe
 );

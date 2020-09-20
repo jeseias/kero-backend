@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Este email não é valido']
   },
+  phone: {
+    type: Number,
+    required: [true, 'Precisamos do seu numero de telefone']
+  },
   photo: {
     type: String,
     default: 'default.jpg'
@@ -49,6 +53,19 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false
   }
+}, {
+  toObject: {
+    virtuals: true
+  },
+  toJSON: {
+    virtuals: true
+  }
+});
+
+userSchema.virtual('img__url').get(function() { 
+  return process.env.LOCATION !== 'http://127.0.0.1' 
+          ? `${process.env.LOCATION}/files/img/users/${this.photo}`
+          : `${process.env.LOCATION}:${process.env.PORT}/files/img/users/${this.photo}`;
 });
 
 userSchema.pre('save', async function(next) {
