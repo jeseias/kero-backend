@@ -38,7 +38,10 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
   await sharp(req.file.buffer)
-    .resize(500, 500)
+    .resize(500,500, {
+      fit: "cover",
+      position: 'top'
+    })
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toFile(`public/img/users/${req.file.filename}`);
@@ -65,6 +68,8 @@ exports.deleteImages = catchAsync(async (req, res, next) => {
     const user = await User.findById(id)
   
     const imgName = user.photo 
+
+    if (imgName === 'default.jpg') return next()
     
     return fs.unlink(`public/img/users/${imgName}`, () => {
       next()

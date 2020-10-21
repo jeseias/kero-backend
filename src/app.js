@@ -98,6 +98,7 @@ app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/reviews', require('./routes/reviewRoutes'));
 app.use('/api/v1/bookings', require('./routes/bookingRoutes'));
 app.use('/api/v1/contacts', require('./routes/contactRoutes'));
+app.use('/api/v1/checkouts', require('./routes/checkoutRoutes'));
 
 app.use('/files', express.static(path.join(__dirname, '..', 'public')))
 

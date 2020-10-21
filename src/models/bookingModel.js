@@ -15,20 +15,18 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     require: [true, 'Booking must have a price.']
   },
-  createdAt: {
-    type: Date,
-    default: Date.now()
-  },
   paid: {
     type: Boolean,
     default: true
-  }
+  }  
+}, {
+  timestamps: true
 });
 
 bookingSchema.pre(/^find/, function(next) {
   this.populate('user').populate({
     path: 'product',
-    select: 'name image price'
+    select: 'name imageCover images price summary'
   });
   
   next();

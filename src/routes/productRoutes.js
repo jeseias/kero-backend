@@ -23,6 +23,7 @@ router
     authController.protect,
     authController.restrictTo('admin'),
     productController.uploadProductImages,
+    productController.deleteImages,
     productController.resizeProductImages,
     productController.updateProduct
   )

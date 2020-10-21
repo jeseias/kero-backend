@@ -68,6 +68,19 @@ exports.webhookCheckout = (req, res, next) => {
   res.status(200).json({ received: true });
 };
 
+exports.getMyBookings = catchAsync(async(req, res, next) => {
+  const { _id } = req.user
+  
+  const allBookings = await Booking.find({ user: _id })
+
+  return res.status(200).json({
+    status: 'success',
+    data: {
+      docs: allBookings
+    }
+  })
+})
+
 exports.createBooking = factory.createOne(Booking);
 exports.getBooking = factory.getOne(Booking);
 exports.getAllBookings = factory.getAll(Booking);

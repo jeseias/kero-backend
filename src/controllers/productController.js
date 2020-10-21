@@ -29,35 +29,60 @@ exports.uploadProductImages = upload.fields([
 // upload.array('images', 5) req.files
 
 exports.resizeProductImages = catchAsync(async (req, res, next) => {
-  if (!req.files.imageCover || !req.files.images) return next();
+  // if (!req.files.imageCover || !req.files.images) return next();
 
-  // 1) Cover image
-  req.body.imageCover = `product-${req.user.id}-${Date.now()}-cover.jpeg`;
-  await sharp(req.files.imageCover[0].buffer)
-    .resize(2000, 1333)
-    .toFormat('jpeg')
-    .jpeg({ quality: 90 })
-    .toFile(`public/img/products/${req.body.imageCover}`);
+  if (req.file && req.files.imageCover) {
+    // 1) Cover image
+    req.body.imageCover = `product-${req.user.id}-${Date.now()}-cover.jpeg`;
+    await sharp(req.files.imageCover[0].buffer)
+      .resize(2000, 1333)
+      .toFormat('jpeg')
+      .jpeg({ quality: 90 })
+      .toFile(`public/img/products/${req.body.imageCover}`);
 
-  // 2) Images
-  req.body.images = [];
+    next()
+  }
 
-  await Promise.all(
-    req.files.images.map(async (file, i) => {
-      const filename = `product-${req.user.id}-${Date.now()}-${i + 1}.jpeg`;
+  if (req.files && res.files.images) {
+    // 2) Images
+    req.body.images = [];
+  
+    await Promise.all(
+      req.files.images.map(async (file, i) => {
+        const filename = `product-${req.user.id}-${Date.now()}-${i + 1}.jpeg`;
+  
+        await sharp(file.buffer)
+          .resize(2000, 1333)
+          .toFormat('jpeg')
+          .jpeg({ quality: 90 })
+          .toFile(`public/img/products/${filename}`);
+  
+        req.body.images.push(filename);
+      })
+    );
 
-      await sharp(file.buffer)
-        .resize(2000, 1333)
-        .toFormat('jpeg')
-        .jpeg({ quality: 90 })
-        .toFile(`public/img/products/${filename}`);
-
-      req.body.images.push(filename);
-    })
-  );
+    next();
+  }
 
   next();
 }); 
+
+exports.deleteImages = catchAsync(async (req, res, next) => {
+  if (req.file) {
+    const { id } = req.params;
+    const products = await Product.findById(id)
+  
+    const imgName = products.imageCover 
+
+    if (imgName === 'default.jpg') return next()
+    
+    return fs.unlink(`public/img/products/${imgName}`, () => {
+      next()
+    })
+  }
+
+  next()
+})
 
 exports.getAllProducts = factory.getAll(Product);
 exports.getProduct = factory.getOne(Product);
