@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const multer = require('multer');
 const sharp = require('sharp');
 const Product = require('./../models/productModel');
@@ -30,8 +32,8 @@ exports.uploadProductImages = upload.fields([
 
 exports.resizeProductImages = catchAsync(async (req, res, next) => {
   // if (!req.files.imageCover || !req.files.images) return next();
-
-  if (req.file && req.files.imageCover) {
+  
+  if (req.files && req.files.imageCover) {
     // 1) Cover image
     req.body.imageCover = `product-${req.user.id}-${Date.now()}-cover.jpeg`;
     await sharp(req.files.imageCover[0].buffer)
@@ -43,7 +45,7 @@ exports.resizeProductImages = catchAsync(async (req, res, next) => {
     next()
   }
 
-  if (req.files && res.files.images) {
+  if (req.files && req.files.images) {
     // 2) Images
     req.body.images = [];
   
@@ -68,7 +70,7 @@ exports.resizeProductImages = catchAsync(async (req, res, next) => {
 }); 
 
 exports.deleteImages = catchAsync(async (req, res, next) => {
-  if (req.file) {
+  if (req.files) {
     const { id } = req.params;
     const products = await Product.findById(id)
   
