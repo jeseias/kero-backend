@@ -10,7 +10,7 @@ exports.deleteOne = Model =>
       return next(new AppError('Não se encontrou documento com este ID', 404));
     }
 
-    res.status(204).json({
+    return res.status(204).json({
       status: 'success',
       data: null
     });
@@ -27,7 +27,7 @@ exports.updateOne = Model =>
       return next(new AppError('Não se encontrou documento com este ID', 404));
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       status: 'success',
       data: {
         doc
@@ -39,7 +39,7 @@ exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
 
-    res.status(201).json({
+    return res.status(201).json({
       status: 'success',
       data: {
         doc
@@ -57,7 +57,7 @@ exports.getOne = (Model, popOptions) =>
       return next(new AppError('Não se encontrou documento com este ID', 404));
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       status: 'success',
       data: {
         doc
@@ -80,7 +80,7 @@ exports.getAll = Model =>
     const docs = await features.query;
 
     // SEND RESPONSE
-    res.status(200).json({
+    return res.status(200).json({
       status: 'success',
       results: docs.length,
       data: {

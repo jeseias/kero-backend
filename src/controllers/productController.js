@@ -41,8 +41,6 @@ exports.resizeProductImages = catchAsync(async (req, res, next) => {
       .toFormat('jpeg')
       .jpeg({ quality: 90 })
       .toFile(`public/img/products/${req.body.imageCover}`);
-
-    next()
   }
 
   if (req.files && req.files.images) {
