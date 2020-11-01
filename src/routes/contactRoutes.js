@@ -13,7 +13,7 @@ router
     contactController.createContact
   )  
 
-router.use(authController.restrictTo('user', 'admin'))
+router.use(authController.protect, authController.restrictTo('admin'))
 
 router
   .route('/:id')

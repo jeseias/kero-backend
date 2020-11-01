@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: [true, 'O produto deve ter uma categoria'],
-      enum: ['Alimentos', 'Eletronicos', 'Materias', 'Vestuários']
+      enum: ['alimentos', 'eletronicos', 'materias', 'vestuarios']
     },
     subCategory: {
       type: String,
