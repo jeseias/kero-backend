@@ -13,7 +13,7 @@ router.use(authController.restrictTo('admin', 'user'));
 router
   .route('/')
   .get(bookingController.getMyBookings)
-  .post(bookingController.createBooking);
+  .post(bookingController.isProductAlreadyHere, bookingController.createBooking);
 
 router
   .route('/:id')

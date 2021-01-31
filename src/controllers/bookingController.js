@@ -4,6 +4,8 @@ const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+const Checkout = require('../models/checkoutModel');
+const AppError = require('../utils/appError');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked tour
@@ -79,7 +81,18 @@ exports.getMyBookings = catchAsync(async(req, res, next) => {
       docs: allBookings
     }
   })
-})
+}) 
+
+exports.isProductAlreadyHere = catchAsync(async (req, res, next) => {
+  const { user, product } = req.body;
+  const productsFound = await Booking.find({ product, user })
+  
+  if (productsFound[0]) {
+    return next(new AppError('Este producto ja esta no seu carrinho', 400))
+  }
+
+  next()
+});
 
 exports.createBooking = factory.createOne(Booking);
 exports.getBooking = factory.getOne(Booking);
