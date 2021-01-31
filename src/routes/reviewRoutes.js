@@ -11,6 +11,7 @@ router
     authController.protect,
     authController.restrictTo('user'),
     reviewController.setProductUserIds,
+    reviewController.checkUserReview,
     reviewController.createReview
   );
 
