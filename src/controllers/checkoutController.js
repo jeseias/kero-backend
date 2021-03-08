@@ -17,13 +17,6 @@ exports.getMyCheckouts = catchAsync(async (req, res, next) => {
   }) 
 });
 
-exports.isProductAlreadyHere = catchAsync(async (req, res, next) => {
-  const { user } = req.user;
-  console.log(user._id)
-
-  next()
-});
-
 exports.createCheckout = factory.createOne(Checkout);
 exports.getCheckout = factory.getOne(Checkout);
 exports.getAllCheckouts = factory.getAll(Checkout);

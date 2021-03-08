@@ -7,7 +7,7 @@ router.use(authController.protect, authController.restrictTo('admin', 'user'))
 router
   .route('/')
   .get(checkoutController.getMyCheckouts)
-  .post(checkoutController.isProductAlreadyHere, checkoutController.createCheckout)
+  .post(checkoutController.createCheckout)
 
 router
   .route('/:id')
